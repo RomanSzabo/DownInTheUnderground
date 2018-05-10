@@ -86,12 +86,12 @@ public class QRStartScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (exit == null) {
-                    Toast.makeText(QRStartScreen.this, "No such Station!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QRStartScreen.this, "Please scan station QR code first!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else {
                     Intent intent = new Intent(QRStartScreen.this, DestinationScreen.class);
-                    intent.putExtra(STATION, stid);
+                    intent.putExtra(STATION, st);
                     startActivity(intent);
                 }
             }
@@ -159,7 +159,7 @@ public class QRStartScreen extends AppCompatActivity {
                                 eeid = eid;
                             }
                             catch (Exception e) {
-                                Toast.makeText(QRStartScreen.this, "Can't find Station / Invalid QR Code", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(QRStartScreen.this, "Can't find Station / Invalid QR Code", Toast.LENGTH_SHORT).show();
                                 Log.e("QR_CODE_ERROR", e.getMessage());
                             }
                             Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
@@ -172,7 +172,7 @@ public class QRStartScreen extends AppCompatActivity {
                             });
                             String res;
                             if (st == null || exit == null) {
-                                res = "";
+                                res = "Error - Invalid QR Code";
                             }
                             else {
                                 res = "Station: " + st + " - " + exit;

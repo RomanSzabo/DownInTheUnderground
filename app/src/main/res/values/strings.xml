@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">DownInTheUnderground</string>
     <string name="confirm">Confirm</string>
+    <string name="start">Please scan Station QR code</string>
+    <string name="focus">Scan by focusing camera on QR code</string>
+    <string name="res">Scan Result:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

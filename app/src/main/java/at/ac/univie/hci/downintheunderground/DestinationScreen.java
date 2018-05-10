@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import at.ac.univie.hci.downintheunderground.db.DatabaseInitializer;
 import at.ac.univie.hci.downintheunderground.db.Exit;
@@ -27,11 +28,24 @@ public class DestinationScreen extends AppCompatActivity {
     Button confirmButton;
     String dest;
     String origin;
+    String street;
     int a;
     int b;
     private StationDB stationDB;
+    int exit;
 
 
+    private void set(String s) {
+        this.street = s;
+    }
+
+    private void setB(int i) {
+        this.b = i;
+    }
+
+    private void setExit(int e) {
+        this.exit = e;
+    }
 
 
     @Override
@@ -46,25 +60,39 @@ public class DestinationScreen extends AppCompatActivity {
         confirmButton = findViewById(R.id.confirmButton);
 
         Intent intent = getIntent();
-        a = intent.getIntExtra(STATION, 1);
-        origin = stationDB.getStationDao().findStationById(a);
+        origin = intent.getStringExtra(STATION);
         from.setText(origin);
 
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               dest =  to.getText().toString();
-                if (stationDB.getStreetDao().getStreetByName(dest).isEmpty()) {
+                dest =  to.getText().toString();
+                Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                       String s =  stationDB.getStreetDao().getStreetByName(dest);
+                       set(s);
+                    }
+                });
+                if (street == null) {
                     Toast.makeText(DestinationScreen.this, "No such Street!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else {
-                    b = stationDB.getStationStreetDao().getStationForStreet(stationDB.getStreetDao().getStreetId(dest)).id;
+                    Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            int b = stationDB.getStationStreetDao().getStationForStreet(stationDB.getStreetDao().getStreetId(dest)).id;
+                            int exit  = stationDB.getStreetDao().getExitIDByName(dest);
+                            setB(b);
+                            setExit(exit);
+                        }
+                    });
                     Intent intent = new Intent(DestinationScreen.this, NavigateActivity.class);
                     intent.putExtra(STATION, a);
                     intent.putExtra("destST", b);
-                    intent.putExtra("destExit", stationDB.getStreetDao().getExitIDByName(dest));
+                    intent.putExtra("destExit", exit);
                     startActivity(intent);
                 }
             }
