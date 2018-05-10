@@ -6,10 +6,11 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.telecom.Call;
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {Station.class, Exit.class}, version = 1)
+@Database(entities = {Station.class, Exit.class, Street.class, StationStreetRelation.class}, version = 4)
 public abstract class StationDB extends RoomDatabase{
 
     private static StationDB INSTANCE;
@@ -26,8 +27,22 @@ public abstract class StationDB extends RoomDatabase{
         return INSTANCE;
     }
 
+
+
     private static StationDB create (final Context context) {
-        return Room.databaseBuilder(context, StationDB.class, DB_NAME).build();
+         INSTANCE = Room.databaseBuilder(context, StationDB.class, DB_NAME)
+                .fallbackToDestructiveMigration()
+                .addCallback(new Callback() {
+                    @Override
+                    public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                        super.onCreate(db);
+                        DatabaseInitializer.populateAsync(INSTANCE);
+                    }
+                })
+                .build();
+        return INSTANCE;
     }
+
+
 
 }

@@ -12,8 +12,10 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 @Entity(tableName = "exit", foreignKeys = @ForeignKey(entity = Station.class, parentColumns = "id", childColumns = "stationID", onDelete = CASCADE))
 public class Exit {
     @PrimaryKey(autoGenerate = false)
-    public final int stationID;
     public final int exitID;
+
+    @ColumnInfo(name = "stationID")
+    public final int stationID;
 
     @ColumnInfo(name = "exitName")
     public final String exitName;

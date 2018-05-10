@@ -34,15 +34,16 @@ public class DatabaseInitializer {
                                      new Street(7,"Taborstrasse", 4), new Street (8,"Glockengasse", 3),
                                      new Street(9,"Prater", 1), new Street (10,"Holzhausergasse", 2)};
         StationStreetRelation ssr[] = new StationStreetRelation[] { new StationStreetRelation(5, 2),
-                                    new StationStreetRelation(1, 10),new StationStreetRelation(1, 19),
+                                    new StationStreetRelation(1, 10),new StationStreetRelation(1, 9),
                                     new StationStreetRelation(2, 8),new StationStreetRelation(2, 7),
                                     new StationStreetRelation(3, 5),new StationStreetRelation(3, 6),
                                     new StationStreetRelation(4, 3),new StationStreetRelation(4, 4),
                                     new StationStreetRelation(5, 1)  };
-        db.getExitDao().insert(e);
-        db.getStationStreetDao().insert(ssr);
-        db.getStreetDao().insert(st);
+
         db.getStationDao().insert(s);
+        db.getExitDao().insert(e);
+        db.getStreetDao().insert(st);
+        db.getStationStreetDao().insert(ssr);
     }
 
 

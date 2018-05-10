@@ -18,13 +18,13 @@ public interface StreetDao {
     @Update
     void update(Street... streets);
 
-    @Query("SELECT street FROM street WHERE street=:street")
+    @Query("SELECT streetName FROM street WHERE streetName=:street")
     String getStreetByName(final String street);
 
-    @Query("SELECT id FROM street WHERE street=:street")
+    @Query("SELECT id FROM street WHERE streetName=:street")
     int getStreetId(final String street);
 
-    @Query("SELECT exitID FROM street WHERE street=:street")
+    @Query("SELECT exitID FROM street WHERE streetName=:street")
     int getExitIDByName(final String street);
 
     @Query("SELECT exitID FROM street WHERE id=:id")

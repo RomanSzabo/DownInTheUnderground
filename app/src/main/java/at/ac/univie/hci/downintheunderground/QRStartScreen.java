@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Camera;
+import android.os.AsyncTask;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -25,6 +27,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
 
 import at.ac.univie.hci.downintheunderground.db.DatabaseInitializer;
 import at.ac.univie.hci.downintheunderground.db.Exit;
@@ -39,10 +42,18 @@ public class QRStartScreen extends AppCompatActivity {
     CameraSource cameraSource;
     Button confirmButton;
     String qrResult;
+    String st;
+    String exit;
     final int RequestCameraPermissionID  = 1001;
     public static final String STATION = "Station";
     private StationDB stationDB;
-    private Exit exit;
+    int stid;
+    int eeid;
+
+    private void set(String s, String e) {
+        st = s;
+        exit = e;
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -74,17 +85,13 @@ public class QRStartScreen extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] id = qrResult.split(",");
-                int sid = Integer.parseInt(id[0]);
-                int eid = Integer.parseInt(id[1]);
-                String exit = stationDB.getExitDao().getExitByID(eid, sid);
-                if (exit.isEmpty()) {
+                if (exit == null) {
                     Toast.makeText(QRStartScreen.this, "No such Station!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else {
                     Intent intent = new Intent(QRStartScreen.this, DestinationScreen.class);
-                    intent.putExtra(STATION, sid);
+                    intent.putExtra(STATION, stid);
                     startActivity(intent);
                 }
             }
@@ -144,7 +151,32 @@ public class QRStartScreen extends AppCompatActivity {
                             Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(1000);
                             qrResult = codes.valueAt(0).displayValue;
-                            String res = "Station: " + qrResult + " - " + exit;
+                            try {
+                                String[] id = qrResult.split(",");
+                                final int sid = Integer.parseInt(id[0]);
+                                stid = sid;
+                                final int eid = Integer.parseInt(id[1]);
+                                eeid = eid;
+                            }
+                            catch (Exception e) {
+                                Toast.makeText(QRStartScreen.this, "Can't find Station / Invalid QR Code", Toast.LENGTH_SHORT).show();
+                                Log.e("QR_CODE_ERROR", e.getMessage());
+                            }
+                            Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String e = (stationDB.getExitDao().getExitByID(eeid, stid));
+                                    String s = (stationDB.getStationDao().findStationById(stid));
+                                    set(s, e);
+                                }
+                            });
+                            String res;
+                            if (st == null || exit == null) {
+                                res = "";
+                            }
+                            else {
+                                res = "Station: " + st + " - " + exit;
+                            }
                             result.setText(res);
                         }
                     });

@@ -10,13 +10,13 @@ public class Street {
     @PrimaryKey(autoGenerate = false)
     private int id;
 
-    @ColumnInfo(name = "street")
+    @ColumnInfo(name = "streetName")
     private String street;
     @ColumnInfo(name = "exitID")
     private int exitID;
 
-    public Street(int streetID, String street, int exitID) {
-        this.id = streetID;
+    public Street(int id, String street, int exitID) {
+        this.id = id;
         this.street = street;
         this.exitID = exitID;
     }
