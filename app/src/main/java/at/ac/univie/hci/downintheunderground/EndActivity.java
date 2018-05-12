@@ -27,6 +27,7 @@ public class EndActivity extends AppCompatActivity {
     String street;
     String f;
     String t;
+    boolean isKarlsplatz;
 
     //DB & Executors
     StationDB stationDB;
@@ -44,6 +45,14 @@ public class EndActivity extends AppCompatActivity {
     boolean lift;
     private void setLift(boolean b){
         lift = b;
+    }
+    String exitSide;
+    private void setSide(String s) {
+        exitSide = s;
+    }
+    int stationId;
+    private void setStation(int i) {
+        stationId = i;
     }
 
 
@@ -65,6 +74,7 @@ public class EndActivity extends AppCompatActivity {
         street = intent.getStringExtra("street");
         f = intent.getStringExtra(STATION);
         t = intent.getStringExtra("dest");
+        isKarlsplatz = intent.getBooleanExtra("richtung", false);
 
         //set from & to txt View
         from.setText(f);
@@ -76,8 +86,11 @@ public class EndActivity extends AppCompatActivity {
             public void run() {
                 int exitID = stationDB.getStreetDao().getExitIDByName(street);
                 int stationID = stationDB.getStationDao().findIDByName(t);
+                setStation(stationID);
                 String exitName = stationDB.getExitDao().getExitByID(exitID, stationID);
                 setE(exitName);
+                String side = stationDB.getExitDao().getTrain(exitID, stationID);
+                setSide(side);
                 int l = stationDB.getExitDao().getLevel(exitID, stationID);
                 setL(l);
                 boolean b = stationDB.getExitDao().getElevatorInfo(exitID,stationID);
@@ -99,6 +112,41 @@ public class EndActivity extends AppCompatActivity {
             desc += " or elevator.";
         }
         else desc += ".";
+
+        //exit dir.
+        if(isKarlsplatz) {
+            if(exitSide.equals("b")) {
+                if(stationId == 5)
+                    desc += " Exit is at the back of the Station. Your right hand side.";
+                else
+                desc += " Exit is at the back of the Station. Your left hand side.";
+            }
+            else if(exitSide.equals("f")) {
+                if(stationId == 5)
+                    desc += " Exit is at the back of the Station. Your left hand side.";
+                else
+                desc += " Exit is at the front of the Station. Your right hand side.";
+            }
+            //if no side given - display nothing extra
+            else desc += "";
+        }
+        else {
+            if(exitSide.equals("b")) {
+                //platform doors open on other side
+                if(stationId == 5)
+                    desc += " Exit is at the front of the Station. Your left hand side.";
+                else
+                desc += " Exit is at the front of the Station. Your right hand side.";
+            }
+            else if (exitSide.equals("f")) {
+                if(stationId == 5)
+                    desc += " Exit is at the back of the Station. Your right hand side.";
+                else
+                desc += " Exit is at the back of the Station. Your left hand side.";
+            }
+            //if no side given - display nothing extra
+            else desc += "";
+        }
         level.setText(desc);
 
         //put picture

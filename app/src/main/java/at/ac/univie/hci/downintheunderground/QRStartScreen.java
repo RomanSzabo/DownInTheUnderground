@@ -43,8 +43,8 @@ public class QRStartScreen extends AppCompatActivity {
     CameraSource cameraSource;
     Button confirmButton;
     String qrResult;
-    String st;
-    String exit;
+    String st = "Praterstern";
+    String exit = "Venediger Au";
     final int RequestCameraPermissionID  = 1001;
     public static final String STATION = "Station";
     private StationDB stationDB;

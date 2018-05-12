@@ -10,7 +10,7 @@ import android.telecom.Call;
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {Station.class, Exit.class, Street.class, StationStreetRelation.class}, version = 8)
+@Database(entities = {Station.class, Exit.class, Street.class, StationStreetRelation.class}, version = 10)
 public abstract class StationDB extends RoomDatabase{
 
     private static StationDB INSTANCE;

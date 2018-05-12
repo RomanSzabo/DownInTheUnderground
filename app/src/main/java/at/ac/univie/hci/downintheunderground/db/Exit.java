@@ -26,12 +26,16 @@ public class Exit {
     @ColumnInfo(name = "level")
     public final int level;
 
-    public Exit (int stationID, int exitID, String exitName, boolean elevator, int level) {
+    @ColumnInfo(name = "train")
+    public final String train;
+
+    public Exit (int stationID, int exitID, String exitName, boolean elevator, int level, String train) {
         this.stationID = stationID;
         this.exitID = exitID;
         this.exitName = exitName;
         this.elevator = elevator;
         this.level = level;
+        this.train = train;
     }
 
 

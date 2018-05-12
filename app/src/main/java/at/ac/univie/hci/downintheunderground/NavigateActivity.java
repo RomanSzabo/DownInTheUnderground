@@ -38,6 +38,7 @@ public class NavigateActivity extends AppCompatActivity {
     //Exit info
     boolean elevator = true;
     int level = -11;
+    boolean isKarlsplatz;
 
     //Get names from DB
     int frSt;
@@ -45,6 +46,7 @@ public class NavigateActivity extends AppCompatActivity {
     String toSt;
     String dir;
     String desc;
+    String trainSide;
 
     //Set values from Thread
     private void setFrom(int s) {
@@ -65,6 +67,10 @@ public class NavigateActivity extends AppCompatActivity {
 
     private void setLevel(int i) {
         level = i;
+    }
+
+    private void setTrain(String s) {
+        trainSide = s;
     }
 
     @Override
@@ -97,16 +103,18 @@ public class NavigateActivity extends AppCompatActivity {
         executors.execute(new Runnable() {
             @Override
             public void run() {
-                //String a = stationDB.getStationDao().findStationById(f);
+                int arr = stationDB.getStreetDao().getExitIDByName(street);
                 int i = stationDB.getStationDao().findIDByName(f);
                 String b  = stationDB.getStationStreetDao().getStationForStreet(stationDB.getStreetDao().getStreetId(t)).name;
                 int j = stationDB.getStationDao().findIDByName(b);
+                String arrSide = stationDB.getExitDao().getTrain(arr, j);
                 boolean el = stationDB.getExitDao().getElevatorInfo(stationDB.getExitDao().getExitID(i, e), i);
                 int lvl = stationDB.getExitDao().getLevel(stationDB.getExitDao().getExitID(i, e),i);
                 setFrom(i);
                 setTo(b);
                 setElevator(el);
                 setLevel(lvl);
+                setTrain(arrSide);
             }
         });
         //wait to thread
@@ -121,20 +129,46 @@ public class NavigateActivity extends AppCompatActivity {
         to.setText(toSt);
 
         //find direction
-        if(frSt > toID) {
+        if(frSt < toID) {
             dir = "in Direction Karlsplatz";
+            isKarlsplatz = true;
         }
-        else if (frSt < toID) {
+        else if (frSt > toID) {
             dir = "in Direction Seestadt";
+            isKarlsplatz = false;
         }
         richtung.setText(dir);
 
         //create steps
+        //level & elevator info
         desc = "Go down to station level -" + level + ". You can use stairs";
         if(elevator) {
             desc += " or elevator.";
         }
         else desc += ".";
+
+        //train step-in hint
+        if(isKarlsplatz) {
+            if(trainSide.equals("b")) {
+                desc += " Use back of the Train.";
+            }
+            else if(trainSide.equals("f")) {
+                desc += " Use front of the Train.";
+            }
+            //if no side given - display nothing extra
+            else desc += "";
+        }
+        else {
+            if(trainSide.equals("b")) {
+                desc += " Use front of the Train";
+            }
+            else if (trainSide.equals("f")) {
+                desc += " Use back of the Train";
+            }
+            //if no side given - display nothing extra
+            else desc += "";
+        }
+
         steps.setText(desc);
 
         //put picture
@@ -149,6 +183,7 @@ public class NavigateActivity extends AppCompatActivity {
                 intent.putExtra("street", street);
                 intent.putExtra(STATION, f);
                 intent.putExtra("dest", toSt);
+                intent.putExtra("richtung", isKarlsplatz);
                 startActivity(intent);
             }
         });

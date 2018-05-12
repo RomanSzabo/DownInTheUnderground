@@ -29,6 +29,9 @@ public interface ExitDao {
     @Query("SELECT level FROM exit WHERE exitID=:ID AND stationID=:stationID")
     int getLevel(final int ID, final int stationID);
 
+    @Query("SELECT train FROM exit WHERE exitID=:ID AND stationID=:stationID")
+    String getTrain(int ID, int stationID);
+
     @Query("SELECT * FROM exit")
     List<Exit> getExits();
 }
