@@ -30,7 +30,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="serif"
-        android:text="Confirm"
+        android:text="@string/confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/from"
         app:layout_constraintVertical_bias="0.141"
-        tools:text="Street" />
+        tools:text="Straße" />
 
     <TextView
         android:id="@+id/textView4"
@@ -62,7 +62,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="72dp"
         android:fontFamily="serif"
-        android:text="From:"
+        android:text="Von:"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintEnd_toStartOf="@+id/from"
@@ -80,7 +80,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="184dp"
         android:fontFamily="serif"
-        android:text="To:"
+        android:text="Nach:"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/to"

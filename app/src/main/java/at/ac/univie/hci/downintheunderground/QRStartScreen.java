@@ -92,7 +92,7 @@ public class QRStartScreen extends AppCompatActivity {
                 //check if data obtained from QR before going to next activity
                 if (exit == null) {
                     //if no info - display err. msg.
-                    Toast.makeText(QRStartScreen.this, "Please scan station QR code first!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QRStartScreen.this, "Bitte scanne zuerst den Stations-QR-Code!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else {
@@ -189,7 +189,7 @@ public class QRStartScreen extends AppCompatActivity {
                             //check validity of info
                             if (st == null || exit == null) {
                                 //not valid QR code or Not Station code -> display error
-                                res = "Error - Invalid QR Code";
+                                res = "Fehler - ungültiger QR-Code";
                             }
                             else {
                                 //else get just scanned info on screen

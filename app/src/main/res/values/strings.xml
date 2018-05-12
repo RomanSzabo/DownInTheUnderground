@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">DownInTheUnderground</string>
-    <string name="confirm">Confirm</string>
-    <string name="start">Please scan Station QR code</string>
-    <string name="focus">Scan by focusing camera on QR code</string>
-    <string name="res">Scan Result:</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="start">Bitte scanne den Stations-QR-Code</string>
+    <string name="focus">Scanne,indem du den QR-Code mit der Kamera fokussierst</string>
+    <string name="res">Scan-Ergebnis:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="take">Take U2</string>
-    <string name="go">Go to</string>
+    <string name="take">Nimm die U2</string>
+    <string name="go">Gehe zu</string>
+    <string name="next">Weiter</string>
 </resources>

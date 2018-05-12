@@ -30,7 +30,7 @@ public class DatabaseInitializer {
                                       new Station(5, "Rathaus")};
         Street st[] = new Street[] { new Street(3,"Waehringer Strasse", 8), new Street (2,"Tupengasse", 9),
                                      new Street(1,"Josefstaedter Strasse", 10), new Street (4,"Maria-Theresien Strasse", 7),
-                                     new Street(5,"Franz-Josfs-Kai", 6), new Street (6, "Nickelgasse", 5),
+                                     new Street(5,"Franz-Josefs-Kai", 6), new Street (6, "Nickelgasse", 5),
                                      new Street(7,"Taborstrasse", 4), new Street (8,"Glockengasse", 3),
                                      new Street(9,"Prater", 1), new Street (10,"Holzhausergasse", 2)};
         StationStreetRelation ssr[] = new StationStreetRelation[] { new StationStreetRelation(5, 2),

@@ -130,40 +130,40 @@ public class NavigateActivity extends AppCompatActivity {
 
         //find direction
         if(frSt < toID) {
-            dir = "in Direction Karlsplatz";
+            dir = "in Richtung Karlsplatz";
             isKarlsplatz = true;
         }
         else if (frSt > toID) {
-            dir = "in Direction Seestadt";
+            dir = "in Richtung Seestadt";
             isKarlsplatz = false;
         }
         richtung.setText(dir);
 
         //create steps
         //level & elevator info
-        desc = "Go down to station level -" + level + ". You can use stairs";
+        desc = "Geh runter zum Stationsniveau -" + level + ". Du kannst die Stiegen benutzen";
         if(elevator) {
-            desc += " or elevator.";
+            desc += " oder den Lift.";
         }
         else desc += ".";
 
         //train step-in hint
         if(isKarlsplatz) {
             if(trainSide.equals("b")) {
-                desc += " Use back of the Train.";
+                desc += " Steig in den hinteren Teil der U-Bahn ein.";
             }
             else if(trainSide.equals("f")) {
-                desc += " Use front of the Train.";
+                desc += " Steig in den vorderen Teil der U-Bahn ein.";
             }
             //if no side given - display nothing extra
             else desc += "";
         }
         else {
             if(trainSide.equals("b")) {
-                desc += " Use front of the Train";
+                desc += " Steig in den vorderen Teil der U-Bahn ein.";
             }
             else if (trainSide.equals("f")) {
-                desc += " Use back of the Train";
+                desc += " Steig in den hinteren Teil der U-Bahn ein.";
             }
             //if no side given - display nothing extra
             else desc += "";

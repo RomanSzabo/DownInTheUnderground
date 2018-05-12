@@ -107,9 +107,9 @@ public class EndActivity extends AppCompatActivity {
         //set exit & desc.
         exit.setText(e);
 
-        String desc = "Go up to the ground level. Current level: -" + lvl + ". You can use stairs";
+        String desc = "Geh rauf zum Straßenniveau. Derzeitiges Niveau: -" + lvl + ". Du kannst die Stiegen benutzen";
         if (lift) {
-            desc += " or elevator.";
+            desc += " oder den Lift.";
         }
         else desc += ".";
 
@@ -117,15 +117,15 @@ public class EndActivity extends AppCompatActivity {
         if(isKarlsplatz) {
             if(exitSide.equals("b")) {
                 if(stationId == 5)
-                    desc += " Exit is at the back of the Station. Your right hand side.";
+                    desc += " Der Ausgang ist auf der Hinterseite der Station zu deiner rechten Seite.";
                 else
-                desc += " Exit is at the back of the Station. Your left hand side.";
+                desc += " Der Ausgang ist auf der Hinterseite der Station zu deiner linken Seite.";
             }
             else if(exitSide.equals("f")) {
                 if(stationId == 5)
-                    desc += " Exit is at the back of the Station. Your left hand side.";
+                    desc += " Der Ausgang ist auf der Vorderseite der Station zu deiner linken Seite.";
                 else
-                desc += " Exit is at the front of the Station. Your right hand side.";
+                desc += "Der Ausgang ist auf der Vorderseite der Station zu deiner rechten Seite.";
             }
             //if no side given - display nothing extra
             else desc += "";
@@ -134,15 +134,15 @@ public class EndActivity extends AppCompatActivity {
             if(exitSide.equals("b")) {
                 //platform doors open on other side
                 if(stationId == 5)
-                    desc += " Exit is at the front of the Station. Your left hand side.";
+                    desc += " Der Ausgang ist auf der Vorderseite der Station zu deiner linken Seite.";
                 else
-                desc += " Exit is at the front of the Station. Your right hand side.";
+                desc += " Der Ausgang ist auf der Vorderseite der Station zu deiner rechten Seite.";
             }
             else if (exitSide.equals("f")) {
                 if(stationId == 5)
-                    desc += " Exit is at the back of the Station. Your right hand side.";
+                    desc += " Der Ausgang ist auf der Hinterseite der Station zu deiner rechten Seite.";
                 else
-                desc += " Exit is at the back of the Station. Your left hand side.";
+                desc += " Der Ausgang ist auf der Hinterseite der Station zu deiner linken Seite.";
             }
             //if no side given - display nothing extra
             else desc += "";

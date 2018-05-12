@@ -118,7 +118,7 @@ public class DestinationScreen extends AppCompatActivity {
                 }
                 else {
                     //if not in db, display error msg.
-                    Toast.makeText(DestinationScreen.this, "No such Street!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DestinationScreen.this, "Diese Straße existiert nicht!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                     //create intent and put data
