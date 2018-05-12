@@ -88,34 +88,39 @@ public class DestinationScreen extends AppCompatActivity {
                     @Override
                     public void run() {
                        String s =  stationDB.getStreetDao().getStreetByName(dest);
-                       int i = stationDB.getStationStreetDao().getStationForStreet(stationDB.getStreetDao().getStreetId(s)).id;
-                       set(s);
-                       setA(i);
+                       //don't go further if street not in db, let err. cond. handle it
+                       if(s != null) {
+                           int i = stationDB.getStationStreetDao().getStationForStreet(stationDB.getStreetDao().getStreetId(s)).id;
+                           set(s);
+                           setA(i);
+                       }
                     }
                 });
                 //wait for thread
                 try {
-                    executors.awaitTermination(1000, TimeUnit.MILLISECONDS);
+                    executors.awaitTermination(100, TimeUnit.MILLISECONDS);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 //check if street is in db
-                if (street == null) {
-                    //if not in db, display error msg.
-                    Toast.makeText(DestinationScreen.this, "No such Street!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                else {
+                if (street != null) {
                     //if in db, go to next activity
                     Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                         @Override
                         public void run() {
                             int b = stationDB.getStationStreetDao().getStationForStreet(stationDB.getStreetDao().getStreetId(dest)).id;
-                            int exit  = stationDB.getStreetDao().getExitIDByName(dest);
+                            int exit = stationDB.getStreetDao().getExitIDByName(dest);
                             setB(b);
                             setExit(exit);
+
                         }
                     });
+                }
+                else {
+                    //if not in db, display error msg.
+                    Toast.makeText(DestinationScreen.this, "No such Street!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                     //create intent and put data
                     Intent intent = new Intent(DestinationScreen.this, NavigateActivity.class);
                     intent.putExtra(STATION, origin);
@@ -123,7 +128,7 @@ public class DestinationScreen extends AppCompatActivity {
                     intent.putExtra("exit", originExit);
                     intent.putExtra("street", street);
                     startActivity(intent);
-                }
+
             }
         });
     }
