@@ -23,6 +23,9 @@ public interface StationDao {
     @Query("SELECT name FROM station WHERE id=:id")
     String findStationById(final int id);
 
+    @Query("SELECT id FROM station WHERE name=:name")
+    int findIDByName(final String name);
+
     @Query("SELECT * FROM station")
     List<Station> getAllStations();
 }

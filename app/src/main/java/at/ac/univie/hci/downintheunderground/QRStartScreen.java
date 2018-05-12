@@ -36,6 +36,7 @@ import at.ac.univie.hci.downintheunderground.db.StationDB;
 
 public class QRStartScreen extends AppCompatActivity {
 
+    //vars.
     SurfaceView camera;
     TextView result;
     BarcodeDetector qrcode;
@@ -50,11 +51,13 @@ public class QRStartScreen extends AppCompatActivity {
     int stid;
     int eeid;
 
+    //setter for db
     private void set(String s, String e) {
         st = s;
         exit = e;
     }
 
+    //get picture from camera, check if permission granted for camera
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch(requestCode) {
@@ -78,6 +81,7 @@ public class QRStartScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrstart_screen);
 
+        //init. layout vars.
         camera = (SurfaceView)findViewById(R.id.QRCamera);
         result = (TextView)findViewById(R.id.QRResult);
         confirmButton = (Button)findViewById(R.id.ConfirmQR);
@@ -85,17 +89,22 @@ public class QRStartScreen extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //check if data obtained from QR before going to next activity
                 if (exit == null) {
+                    //if no info - display err. msg.
                     Toast.makeText(QRStartScreen.this, "Please scan station QR code first!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else {
+                    //else go to next activity
                     Intent intent = new Intent(QRStartScreen.this, DestinationScreen.class);
                     intent.putExtra(STATION, st);
+                    intent.putExtra("exit", exit);
                     startActivity(intent);
                 }
             }
         });
+        //build detector and camera
         qrcode = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE)
                 .build();
@@ -105,7 +114,7 @@ public class QRStartScreen extends AppCompatActivity {
                 .setAutoFocusEnabled(true)
                 .build();
 
-        //Event
+        //Event - surface view
         camera.getHolder().addCallback(new SurfaceHolder.Callback() {
 
             @Override
@@ -134,7 +143,7 @@ public class QRStartScreen extends AppCompatActivity {
             }
         });
 
-        //Event
+        //Event - process result
         qrcode.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
@@ -148,10 +157,14 @@ public class QRStartScreen extends AppCompatActivity {
                     result.post(new Runnable() {
                         @Override
                         public void run() {
+                            //if data scanned - vibrate
                             Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(1000);
+                            //get value of QR code
                             qrResult = codes.valueAt(0).displayValue;
+                            //check if QR is valid for app
                             try {
+                                //get station ID and exit ID from QR code String
                                 String[] id = qrResult.split(",");
                                 final int sid = Integer.parseInt(id[0]);
                                 stid = sid;
@@ -159,9 +172,11 @@ public class QRStartScreen extends AppCompatActivity {
                                 eeid = eid;
                             }
                             catch (Exception e) {
+                                //if no, put info to log
                                 //Toast.makeText(QRStartScreen.this, "Can't find Station / Invalid QR Code", Toast.LENGTH_SHORT).show();
                                 Log.e("QR_CODE_ERROR", e.getMessage());
                             }
+                            //get data from db
                             Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                                 @Override
                                 public void run() {
@@ -171,10 +186,13 @@ public class QRStartScreen extends AppCompatActivity {
                                 }
                             });
                             String res;
+                            //check validity of info
                             if (st == null || exit == null) {
+                                //not valid QR code or Not Station code -> display error
                                 res = "Error - Invalid QR Code";
                             }
                             else {
+                                //else get just scanned info on screen
                                 res = "Station: " + st + " - " + exit;
                             }
                             result.setText(res);

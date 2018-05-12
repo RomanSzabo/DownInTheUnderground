@@ -28,7 +28,8 @@
             android:value="barcode" />
 
         <activity android:name=".DestinationScreen" />
-        <activity android:name=".NavigateActivity"></activity>
+        <activity android:name=".NavigateActivity" />
+        <activity android:name=".EndActivity"></activity>
     </application>
 
 </manifest>

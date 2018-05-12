@@ -20,6 +20,9 @@ public interface ExitDao {
     @Query("SELECT exitName FROM exit WHERE exitID=:exitID AND stationID=:stationID")
     String getExitByID(final int exitID, final int stationID);
 
+    @Query("SELECT exitID FROM exit WHERE stationID=:stationID AND exitName=:exitName")
+    int getExitID(final int stationID, final String exitName);
+
     @Query("SELECT elevator FROM exit WHERE exitID=:ID AND stationID=:stationID")
     boolean getElevatorInfo(final int ID, final int stationID);
 

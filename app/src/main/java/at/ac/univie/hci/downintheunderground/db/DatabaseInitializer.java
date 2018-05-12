@@ -10,20 +10,20 @@ public class DatabaseInitializer {
         PopulateDBAsync task = new PopulateDBAsync(db);
         task.execute();
     }
-
+    //Data
     private static void populateWithData (StationDB db) {
-        Exit e[] = new Exit[] {new Exit(1, 1, "Venediger Au", true, -3),
-                               new Exit(1, 2, "Praterstern",true, -2),
-                               new Exit(2, 3, "Novaragasse",true, -4),
-                               new Exit(2, 4, "Taborstrasse",true, -4),
-                               new Exit(3, 5, "Herminengasse",true, -4),
-                               new Exit(3, 6, "Schottenring",true, -4),
-                               new Exit(4, 7, "Hohenstraufengasse",false, -2),
-                               new Exit(4, 8, "Universitaetsring(Universitaet)",true, -1),
-                               new Exit(5, 9, "Florianigasse",false, -1),
-                               new Exit(5, 10,"Josefstaedter Strasse, Landesgerichtsstrasse",true, -1),
-                               new Exit(5, 11,"Friedrich-Schmidt-Platz, Rathaus",false, -1),
-                               new Exit(5, 12,"Josefstaedter Strasse, Stadiongasse",true, -1),
+        Exit e[] = new Exit[] {new Exit(1, 1, "Venediger Au", true, 3),
+                               new Exit(1, 2, "Praterstern",true, 2),
+                               new Exit(2, 3, "Novaragasse",true, 4),
+                               new Exit(2, 4, "Taborstrasse",true, 4),
+                               new Exit(3, 5, "Herminengasse",true, 4),
+                               new Exit(3, 6, "Schottenring",true, 4),
+                               new Exit(4, 7, "Hohenstraufengasse",false, 2),
+                               new Exit(4, 8, "Universitaetsring(Universitaet)",true, 1),
+                               new Exit(5, 9, "Florianigasse",false, 1),
+                               new Exit(5, 10,"Josefstaedter Strasse, Landesgerichtsstrasse",true, 1),
+                               new Exit(5, 11,"Friedrich-Schmidt-Platz, Rathaus",false, 1),
+                               new Exit(5, 12,"Josefstaedter Strasse, Stadiongasse",true, 1),
         };
         Station s[] = new Station[] { new Station(1, "Praterstern"), new Station(2, "Taborstrasse"),
                                       new Station(3, "Schottenring"), new Station(4, "Schottentor"),
